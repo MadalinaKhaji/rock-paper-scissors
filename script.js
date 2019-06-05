@@ -1,39 +1,44 @@
 let userWins = 0;
-let javascriptWins = 0;
-let random = Math.random();
-let javascriptPick;
-let userPick;
+let computerWins = 0;
 
-function getRandomPick(){
-    if(random < 0.33) javascriptPick = "rock";
-    else if(random <0.66) javascriptPick = "paper";
-    else javascriptPick = "scissors";
-
-    console.log("Computer's pick: "+javascriptPick);
+function getComputerPick(){
+    let random = Math.random();
+    let computerPick = "";
+    if(random < 0.33) computerPick = "rock";
+    else if(random < 0.66) computerPick = "paper";
+    else computerPick = "scissors";
+    return computerPick;
 }
 
-function startGame(pick) {
-    userPick = pick;
-    console.log("User's pick: "+userPick);
-    getRandomPick();
-    determineWinner(userPick, javascriptPick);
+function startGame(userPick) {
+    let computerPick = getComputerPick();
+    document.getElementById("user-pick").innerHTML = "User's pick: " + userPick;
+    document.getElementById("computer-pick").innerHTML = "Computer's pick: " + computerPick;
+    determineWinner(userPick, computerPick);
 }
 
-function determineWinner(userpick, jspick) {
-    if(userPick === jspick) {
-        document.getElementById("outcome").innerHTML = "Draw - nobody wins. Pick again!";
-    } else if((userpick === "rock" && jspick === "paper") || (userpick === "scissors" && jspick === "rock") || (userPick ==="paper" && jspick === "scissors")) {
-        document.getElementById("outcome").innerHTML = "Computer wins!";
-        javascriptWins ++;
-        printWins();
+function determineWinner(pick1, pick2) {
+    if(pick1 === pick2) displayWinner("draft");
+    else if((pick1 === "rock" && pick2 === "paper") || (pick1 === "scissors" && pick2 === "rock") || (pick1 ==="paper" && pick2 === "scissors")) {
+        computerWins ++;
+        displayWinner("computer");
     } else {
-        document.getElementById("outcome").innerHTML = "User wins!";
         userWins++;
-        printWins();
+        displayWinner("user");
     }
 }
 
-function printWins(){
-    let message = "User wins: " + userWins + " vs " + "Computer wins: " + javascriptWins;
-    document.getElementById("score").innerHTML = message;
+function displayWinner(option) {
+    let elem = document.getElementById("round-winner");
+    if(option === "draft") elem.innerHTML = "Draw. Nobody wins!";
+    else if(option === "user") elem.innerHTML = "Winner is: User!";
+    else if(option === "computer") elem.innerHTML = "Winner is: Computer!";
+    displayScores();
+}
+
+function displayScores(){
+    let userScore = document.getElementById("user-score");
+    let computerScore = document.getElementById("computer-score");
+    userScore.innerHTML = userWins;
+    computerScore.innerHTML = computerWins;
 }

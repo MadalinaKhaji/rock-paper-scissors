@@ -1,3 +1,13 @@
-#outcome {
-    color: red;
+.container {
+    padding: 1rem;
+    background-color: #FFF275;
+    text-align: center;
+}
+
+.card-deck {
+    margin: 2rem;
+}
+
+button {
+    margin: 0.75rem 0.25rem;
 }
