@@ -12,19 +12,22 @@ function getComputerPick(){
 
 function startGame(userPick) {
     let computerPick = getComputerPick();
-    document.getElementById("user-pick").innerHTML = "User's pick: " + userPick;
-    document.getElementById("computer-pick").innerHTML = "Computer's pick: " + computerPick;
-    determineWinner(userPick, computerPick);
+    displayPicks(userPick, computerPick);
+    let winner = determineWinner(userPick, computerPick);
+    if(winner === "user") {
+        userWins++;
+    } else if(winner === "computer") {
+        computerWins ++;
+    }
+    displayWinner(winner);
 }
 
 function determineWinner(pick1, pick2) {
-    if(pick1 === pick2) displayWinner("draft");
+    if(pick1 === pick2) return "draft";
     else if((pick1 === "rock" && pick2 === "paper") || (pick1 === "scissors" && pick2 === "rock") || (pick1 ==="paper" && pick2 === "scissors")) {
-        computerWins ++;
-        displayWinner("computer");
+        return "computer";
     } else {
-        userWins++;
-        displayWinner("user");
+        return "user";
     }
 }
 
@@ -36,9 +39,21 @@ function displayWinner(option) {
     displayScores();
 }
 
-function displayScores(){
+function displayScores() {
     let userScore = document.getElementById("user-score");
     let computerScore = document.getElementById("computer-score");
     userScore.innerHTML = userWins;
     computerScore.innerHTML = computerWins;
 }
+
+function displayPicks(uPick, cPick) {
+    document.getElementById("picks").innerHTML = "User: " + uPick + " | " + "Computer: " + cPick;
+}
+
+function displayDate() {
+    let currentDate = new Date();
+    currentDate = currentDate.getFullYear();
+    document.getElementById("footer-date").innerHTML = currentDate;
+}
+
+displayDate();

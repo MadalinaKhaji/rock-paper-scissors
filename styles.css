@@ -1,3 +1,26 @@
+header {
+    margin: 1.5rem 0;
+    padding: 0.5rem 0;
+    text-align: center;
+    
+  
+}
+
+main {
+    margin: 1rem 0;
+    padding: 0.5rem 0;
+    text-align: center;
+    background-color: #FFF275;
+    border-top: solid thin lightgray;
+    border-bottom: solid thin lightgray;
+}
+
+footer {
+    margin: 1rem 0;
+    padding: 0.5rem 0;
+    text-align: center;
+}
+
 .container {
     padding: 1rem;
     background-color: #FFF275;
