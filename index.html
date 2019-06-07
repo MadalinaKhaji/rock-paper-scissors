@@ -8,7 +8,7 @@
     <meta name="description" content="online game">
     <meta name="author" content="maddie">
 
-    <title>Rock Paper Scissors Game</title>
+    <title>Rock, Paper, Scissors Game</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -18,35 +18,40 @@
 <body>
     <header>
         <h1>Rock, Paper, Scissors Game</h1>
+        <p class="lead">Play the classic Rock, Paper, Scissors game against the computer!</p>
     </header>
+
     <main>
-        <div class="container">
-            <div class="card-deck">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">User Score</h5>
-                        <p class="card-text" id="user-score">0</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title" id="round-winner">Result</h5>
-                        <p class="card-text" id="picks">...</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Computer Score</h5>
-                        <p class="card-text" id="computer-score">0</p>
-                    </div>
-                </div>
+        <div class="card" id="settings-card">
+            <div class="card-body">
+                <h5 class="card-title">Game Settings</h5>
+                <p class="card-text" id="user-name"></p>
+                <p class="card-text" id="no-rounds"></p>
+                <button type="button" class="btn btn-success" id="start-button">Start Game</button>
             </div>
-            <p class="lead">Play the classic Rock, Paper, Scissors game against the computer!</p>
-            <button type="button" class="btn btn-primary" onclick="startGame('rock')">Rock</button>
-            <button type="button" class="btn btn-primary" onclick="startGame('paper')">Paper</button>
-            <button type="button" class="btn btn-primary" onclick="startGame('scissors')">Scissors</button>
+        </div>
+        <div class="card" id="gameplay-card">
+            <div class="card-body">
+                <h5 class="card-title">Select your pick</h5>
+                <button type="button" class="btn btn-primary" onclick="startRound('rock')">Rock</button>
+                <button type="button" class="btn btn-primary" onclick="startRound('paper')">Paper</button>
+                <button type="button" class="btn btn-primary" onclick="startRound('scissors')">Scissors</button>
+            </div>
+        </div>
+        <br>
+        <div class="card" id="results-card">
+            <div class="card-body">
+                <h5 class="card-title" id="results-card-title"></h5>
+                <p class="card-text" id="round-winner"></p>
+                <p class="card-text" id="user-pick"></p>
+                <p class="card-text" id="computer-pick"></p>
+                <p class="card-text" id="user-score"></p>
+                <p class="card-text" id="computer-score"></p>
+                <button type="button" class="btn btn-success" id="restart-button">Restart Game</button>
+            </div>
         </div>
     </main>
+
     <footer>
         <p id="footer-date"></p>
     </footer>

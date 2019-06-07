@@ -2,35 +2,34 @@ header {
     margin: 1.5rem 0;
     padding: 0.5rem 0;
     text-align: center;
-    
-  
 }
 
 main {
     margin: 1rem 0;
     padding: 0.5rem 0;
     text-align: center;
-    background-color: #FFF275;
-    border-top: solid thin lightgray;
-    border-bottom: solid thin lightgray;
+}
+
+button {
+    margin: 0.75rem 0.25rem;
+}
+
+#settings-card, #results-card, #gameplay-card {
+    width: 18rem;
+    margin: 0 auto;
+}
+
+#results-card, #gameplay-card, #user-score, #computer-score  {
+    display: none;
+}
+
+#restart-button {
+    display: none;
+    margin: 0 auto;
 }
 
 footer {
     margin: 1rem 0;
     padding: 0.5rem 0;
     text-align: center;
-}
-
-.container {
-    padding: 1rem;
-    background-color: #FFF275;
-    text-align: center;
-}
-
-.card-deck {
-    margin: 2rem;
-}
-
-button {
-    margin: 0.75rem 0.25rem;
 }
