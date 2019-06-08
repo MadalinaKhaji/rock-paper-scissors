@@ -1,35 +1,30 @@
-header {
-    margin: 1.5rem 0;
-    padding: 0.5rem 0;
-    text-align: center;
-}
-
-main {
+header, main, footer {
     margin: 1rem 0;
-    padding: 0.5rem 0;
+    padding: 1rem 0;
     text-align: center;
 }
 
-button {
-    margin: 0.75rem 0.25rem;
-}
-
-#settings-card, #results-card, #gameplay-card {
-    width: 18rem;
+#game-settings {
+    width: 24rem;
     margin: 0 auto;
+    padding: 1rem;
+    text-align: left;
 }
 
-#results-card, #gameplay-card, #user-score, #computer-score  {
+#successAlert, #warningAlert {
     display: none;
+    margin: 1.5rem 0;
+}
+
+#gameplay, #game-results {
+    display: none;
+}
+
+.btn-lg {
+    margin: 0 0.5rem 0 0.5rem;
 }
 
 #restart-button {
-    display: none;
     margin: 0 auto;
-}
-
-footer {
-    margin: 1rem 0;
-    padding: 0.5rem 0;
     text-align: center;
 }

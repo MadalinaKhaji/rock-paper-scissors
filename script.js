@@ -1,14 +1,15 @@
 // default username is User
 let userName = "User";
+// default no of rounds is 5
+let noOfRounds = 5;
+
 let rounds = [];
-// default no of rounds is 10
-let noOfRounds = 10;
 
 let startButton = document.getElementById("start-button");
 let restartButton = document.getElementById("restart-button");
 
 startButton.addEventListener('click', function() {
-    showElement("settings-card", false);
+    showElement("game-settings", false);
     startGame();
 });
 
@@ -18,14 +19,6 @@ restartButton.addEventListener('click', function() {
     rounds = [];
     startGame();
 });
-
-function setUserName(newUserName) {
-    userName = newUserName;
-}
-
-function setNoOfRounds(newNoOfRounds) {
-    noOfRounds = newNoOfRounds;
-}
 
 function getComputerPick(){
     let random = Math.random();
@@ -53,22 +46,64 @@ function initializeRound(userPick) {
 }
 
 function loadGameSettings() {
-    document.getElementById("user-name").innerText = "Username: " + userName;
-    document.getElementById("no-rounds").innerText = "No of rounds: " + noOfRounds;
+    document.getElementById("usernameInput").value = userName;
+    document.getElementById("noofroundsInput").value = noOfRounds;
+}
+
+function updateGameSettings() {
+    showElement("successAlert", false);
+    showElement("warningAlert", false);
+
+    let succesfulUpdate = true;
+
+    let newUsernameValue = document.getElementById("usernameInput").value;
+    let newNoOfRoundsValue = document.getElementById("noofroundsInput").value;
+
+    let warningAlert = document.getElementById("warningAlert");
+    
+
+    if(newUsernameValue === "" || newNoOfRoundsValue === "") {
+        succesfulUpdate = false;
+        showElement("warningAlert", true);
+        warningAlert.innerText = "Please enter values for username and no of rounds!";
+    }
+
+    if(isNaN(newNoOfRoundsValue)) {
+        succesfulUpdate = false;
+        showElement("warningAlert", true);
+        warningAlert.innerText = "Please enter a number value for no of rounds!";
+    }
+
+    if(newNoOfRoundsValue <= 0) {
+        succesfulUpdate = false;
+        showElement("warningAlert", true);
+        warningAlert.innerText = "Please enter a positive value for no of rounds!";
+    }
+
+    if(succesfulUpdate) {
+        userName = newUsernameValue.toString();
+        noOfRounds = Number.parseInt(newNoOfRoundsValue);
+        console.log(userName + " " + noOfRounds);
+        showElement("successAlert", true);
+        startButton.disabled = false;
+    } else {
+        startButton.disabled = true;
+    }
 }
 
 function startGame() {
-    showElement("results-card", false);
-    showElement("gameplay-card", true);
+    showElement("gameplay", true);
+    showElement("round-results", false);
+    showElement("game-results", false);
 }
 
 function startRound(userPick) {
+    showElement("round-results", true);
+
     let newRound = initializeRound(userPick);
     rounds.push(newRound);
 
-    showElement("results-card", true);
-
-    document.getElementById("results-card-title").innerText = "Round " + rounds.length + " Results";
+    document.getElementById("round-results-title").innerText = "Round " + rounds.length + " Results";
 
     showRoundWinner(newRound.roundWinner);
     showPicks(newRound.userPick, newRound.computerPick);
@@ -89,7 +124,7 @@ function determineRoundWinner(pick1, pick2) {
 }
 
 function determineGameWinner() {
-    showElement("gameplay-card", false);
+    showElement("gameplay", false);
 
     let userWins = 0;
     let computerWins = 0;
@@ -114,17 +149,18 @@ function determineGameWinner() {
 }
 
 function showGameWinner(option) {
-    let resultsTitle = document.getElementById("results-card-title");
+    showElement("game-results", true);
+    let resultsTitle = document.getElementById("game-results-title");
     if(option === "draft") {
-        resultsTitle.innerText = "Game ends with draft.";
+        resultsTitle.innerText = "Draft. Nobody Wins.";
     }
     else if(option === "Computer") {
-        resultsTitle.innerText = "Winner of the game is: " + option.toUpperCase();
+        resultsTitle.innerText = "Game Winner is " + option.toUpperCase();
     } else if(option === "User") {
         if(userName !== "User") {
-            resultsTitle.innerText = "Winner of the game is: " + userName.toUpperCase();
+            resultsTitle.innerText = "Game Winner is " + userName.toUpperCase();
         } else {
-            resultsTitle.innerText = "Winner of the game is: " + option.toUpperCase();
+            resultsTitle.innerText = "Game Winner is " + option.toUpperCase();
         }
     }
     hideRoundWinner();
@@ -208,6 +244,4 @@ function showCurrentDate() {
 }
 
 showCurrentDate();
-setUserName("Sam");
-setNoOfRounds(3);
 loadGameSettings();

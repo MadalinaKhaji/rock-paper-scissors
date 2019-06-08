@@ -22,33 +22,50 @@
     </header>
 
     <main>
-        <div class="card" id="settings-card">
-            <div class="card-body">
-                <h5 class="card-title">Game Settings</h5>
-                <p class="card-text" id="user-name"></p>
-                <p class="card-text" id="no-rounds"></p>
+        <div class="container" id="game-settings">
+            <h4>Game Settings</h4>
+            <br>
+            <form>
+                <div class="form-group">
+                    <label for="Username">Username</label>
+                    <input type="text" class="form-control" id="usernameInput" placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <label for="NoOfRounds">No of rounds</label>
+                    <input type="text" class="form-control" id="noofroundsInput" placeholder="Enter no of rounds">
+                </div>
+                <button type="button" class="btn btn-primary" onclick="updateGameSettings()">Change Settings</button>
                 <button type="button" class="btn btn-success" id="start-button">Start Game</button>
+                <div class="alert alert-success" id="successAlert" role="alert">
+                    Succesfull Update!
+                </div>
+                <div class="alert alert-warning" id="warningAlert" role="alert"></div>
+            </form>
+        </div>
+
+        <div class="container" id="gameplay">
+            <h3>Make a Choice</h3>
+            <br>
+            <button type="button" class="btn btn-primary btn-lg" onclick="startRound('rock')">Rock</button>
+            <button type="button" class="btn btn-primary btn-lg" onclick="startRound('paper')">Paper</button>
+            <button type="button" class="btn btn-primary btn-lg" onclick="startRound('scissors')">Scissors</button>
+            <br><br><br>
+            <div id="round-results">
+                <h4 id="round-results-title">Round Results</h4>
+                <br>
+                <p id="round-winner"></p>
+                <p id="user-pick"></p>
+                <p id="computer-pick"></p>
             </div>
         </div>
-        <div class="card" id="gameplay-card">
-            <div class="card-body">
-                <h5 class="card-title">Select your pick</h5>
-                <button type="button" class="btn btn-primary" onclick="startRound('rock')">Rock</button>
-                <button type="button" class="btn btn-primary" onclick="startRound('paper')">Paper</button>
-                <button type="button" class="btn btn-primary" onclick="startRound('scissors')">Scissors</button>
-            </div>
-        </div>
-        <br>
-        <div class="card" id="results-card">
-            <div class="card-body">
-                <h5 class="card-title" id="results-card-title"></h5>
-                <p class="card-text" id="round-winner"></p>
-                <p class="card-text" id="user-pick"></p>
-                <p class="card-text" id="computer-pick"></p>
-                <p class="card-text" id="user-score"></p>
-                <p class="card-text" id="computer-score"></p>
-                <button type="button" class="btn btn-success" id="restart-button">Restart Game</button>
-            </div>
+
+        <div class="container" id="game-results">
+            <h4 id="game-results-title">Game Results</h4>
+            <br>
+            <p id="user-score"></p>
+            <p id="computer-score"></p>
+            <br>
+            <button type="button" class="btn btn-success" id="restart-button">Restart Game</button>
         </div>
     </main>
 
