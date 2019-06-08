@@ -12,6 +12,8 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css"
+        integrity="sha384-i1LQnF23gykqWXg6jxC2ZbCbUMxyw5gLZY6UiUS98LYV5unm8GWmfkIS6jqJfb4E" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -23,7 +25,7 @@
 
     <main>
         <div class="container" id="game-settings">
-            <h4>Game Settings</h4>
+            <h4>Game Settings <i class="fas fa-cog"></i></h4>
             <br>
             <form>
                 <div class="form-group">
@@ -34,8 +36,8 @@
                     <label for="NoOfRounds">No of rounds</label>
                     <input type="text" class="form-control" id="noofroundsInput" placeholder="Enter no of rounds">
                 </div>
-                <button type="button" class="btn btn-primary" onclick="updateGameSettings()">Change Settings</button>
-                <button type="button" class="btn btn-success" id="start-button">Start Game</button>
+                <button type="button" class="btn btn-primary" onclick="updateGameSettings()"><i class="fas fa-wrench"></i> Update Settings</button>
+                <button type="button" class="btn btn-success" id="start-button"><i class="fas fa-play-circle"></i> Start Game</button>
                 <div class="alert alert-success" id="successAlert" role="alert">
                     Succesfull Update!
                 </div>
@@ -46,9 +48,12 @@
         <div class="container" id="gameplay">
             <h3>Make a Choice</h3>
             <br>
-            <button type="button" class="btn btn-primary btn-lg" onclick="startRound('rock')">Rock</button>
-            <button type="button" class="btn btn-primary btn-lg" onclick="startRound('paper')">Paper</button>
-            <button type="button" class="btn btn-primary btn-lg" onclick="startRound('scissors')">Scissors</button>
+            <button type="button" class="btn btn-primary btn-lg" onclick="startRound('rock')"><i
+                    class="fas fa-hand-rock"></i> Rock</button>
+            <button type="button" class="btn btn-primary btn-lg" onclick="startRound('paper')"><i
+                    class="fas fa-hand-paper"></i> Paper</button>
+            <button type="button" class="btn btn-primary btn-lg" onclick="startRound('scissors')"><i
+                    class="fas fa-hand-scissors"></i> Scissors</button>
             <br><br><br>
             <div id="round-results">
                 <h4 id="round-results-title">Round Results</h4>
@@ -65,7 +70,7 @@
             <p id="user-score"></p>
             <p id="computer-score"></p>
             <br>
-            <button type="button" class="btn btn-success" id="restart-button">Restart Game</button>
+            <button type="button" class="btn btn-success" id="restart-button"><i class="fas fa-redo-alt"></i> Restart Game</button>
         </div>
     </main>
 
