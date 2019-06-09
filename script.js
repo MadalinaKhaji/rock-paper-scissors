@@ -1,192 +1,181 @@
-// default username is User
-let userName = "User";
-// default no of rounds is 5
-let noOfRounds = 5;
+class Game {
+    constructor(playerUsername = "User", roundNo = 5){
+        this.playerUsername = playerUsername, 
+        this.roundNo = roundNo,
+        this.rounds = [];
+        this.playerWins = 0,
+        this.computerWins = 0
+    }
+}
 
-let rounds = [];
+class Round {
+    constructor(userPick) {
+        this.userPick = userPick;
+    }
+    getComputerPick() {
+        let random = Math.random();
+        if (random < 0.33) {
+            return "rock";
+        }
+        else if (random < 0.66) {
+            return "paper";
+        }
+        else {
+            return "scissors";
+        }
+    }
+    getRoundWinner(upick, cpick) {
+        if (upick === cpick) {
+            return "draft";
+        }
+        else if ((upick === "rock" && cpick === "paper") || (upick === "scissors" && cpick === "rock") || (upick === "paper" && cpick === "scissors")) {
+            return "computer";
+        }
+        else {
+            return "user";
+        }
+    }
+}
+
+let game = new Game();
 
 let startButton = document.getElementById("start-button");
 let restartButton = document.getElementById("restart-button");
 
 startButton.addEventListener('click', function() {
+    let usernameValue = document.getElementById("usernameInput").value;
+    let noOfRoundsValue = document.getElementById("noofroundsInput").value;
+
+    if(game.playerUsername !== usernameValue || game.roundNo !== noOfRoundsValue) {
+        if(validateGameSettings(usernameValue, noOfRoundsValue)) {
+            game.playerUsername = usernameValue.toString();
+            game.roundNo = Number.parseInt(noOfRoundsValue);
+    
+            showElement("game-settings", false);
+            showElement("gameplay", true);
+        } else {
+            return 0;
+        }
+    }
     showElement("game-settings", false);
-    startGame();
+    showElement("gameplay", true);
 });
 
 restartButton.addEventListener('click', function() {
+    showElement("game-results-title", false);
+    showElement("user-score", false);
+    showElement("computer-score", false);
     showElement("restart-button", false);
-    hideScores();
-    rounds = [];
-    startGame();
+    showElement("results", false);
+    game.rounds = [];
+    game.playerWins = 0;
+    game.computerWins = 0;
+    showElement("gameplay", true);
 });
 
-function getComputerPick(){
-    let random = Math.random();
-    let computerPick = "";
-    if(random < 0.33) {
-        computerPick = "rock";
-    } else if(random < 0.66) {
-        computerPick = "paper";
-    } else {
-        computerPick = "scissors";
-    }
-    return computerPick;
-}
-
-function initializeRound(userPick) {
-    let uPick = userPick;
-    let cPick = getComputerPick();
-    let rWinner = determineRoundWinner(uPick, cPick);
-    let round = {
-        userPick: uPick,
-        computerPick: cPick,
-        roundWinner: rWinner
-    };
-    return round;
-}
-
 function loadGameSettings() {
-    document.getElementById("usernameInput").value = userName;
-    document.getElementById("noofroundsInput").value = noOfRounds;
+    document.getElementById("usernameInput").value = game.playerUsername;
+    document.getElementById("noofroundsInput").value = game.roundNo;
 }
 
-function updateGameSettings() {
-    showElement("successAlert", false);
+function validateGameSettings(username, roundNo) {
+    let canUpdate = true;
+    let warningAlert = document.getElementById("warningAlert");
+
     showElement("warningAlert", false);
 
-    let succesfulUpdate = true;
-
-    let newUsernameValue = document.getElementById("usernameInput").value;
-    let newNoOfRoundsValue = document.getElementById("noofroundsInput").value;
-
-    let warningAlert = document.getElementById("warningAlert");
-    
-
-    if(newUsernameValue === "" || newNoOfRoundsValue === "") {
-        succesfulUpdate = false;
+    if(username === "" || roundNo === "") {
+        canUpdate = false;
         showElement("warningAlert", true);
         warningAlert.innerText = "Please enter values for username and no of rounds!";
     }
-
-    if(isNaN(newNoOfRoundsValue)) {
-        succesfulUpdate = false;
+    if(isNaN(roundNo)) {
+        canUpdate = false;
         showElement("warningAlert", true);
         warningAlert.innerText = "Please enter a number value for no of rounds!";
     }
-
-    if(newNoOfRoundsValue <= 0) {
-        succesfulUpdate = false;
+    if(roundNo <= 0) {
+        canUpdate = false;
         showElement("warningAlert", true);
         warningAlert.innerText = "Please enter a positive value for no of rounds!";
     }
-
-    if(succesfulUpdate) {
-        userName = newUsernameValue.toString();
-        noOfRounds = Number.parseInt(newNoOfRoundsValue);
-        console.log(userName + " " + noOfRounds);
-        showElement("successAlert", true);
-        startButton.disabled = false;
-    } else {
-        startButton.disabled = true;
-    }
-}
-
-function startGame() {
-    showElement("gameplay", true);
-    showElement("round-results", false);
-    showElement("game-results", false);
+    return canUpdate;
 }
 
 function startRound(userPick) {
-    showElement("round-results", true);
-
-    let newRound = initializeRound(userPick);
-    rounds.push(newRound);
-
-    document.getElementById("round-results-title").innerText = "Round " + rounds.length + " Results";
-
-    showRoundWinner(newRound.roundWinner);
-    showPicks(newRound.userPick, newRound.computerPick);
-    
-    if((rounds.length - 1) === noOfRounds) {
+    if(game.rounds.length === game.roundNo) {
         determineGameWinner();
+        return 0;
     }
-}
 
-function determineRoundWinner(pick1, pick2) {
-    if(pick1 === pick2) {
-        return "draft";
-    } else if((pick1 === "rock" && pick2 === "paper") || (pick1 === "scissors" && pick2 === "rock") || (pick1 ==="paper" && pick2 === "scissors")) {
-        return "computer";
-    } else {
-        return "user";
+    let newRound = new Round(userPick);
+    let compPick = newRound.getComputerPick();
+    let winner = newRound.getRoundWinner(newRound.userPick, compPick);
+
+    if(winner === "user") {
+        game.playerWins++;
+    } else if(winner === "computer") {
+        game.computerWins++;
     }
+
+    game.rounds.push(newRound);
+    
+    showWinner(winner, "round");
+    showPicks(newRound.userPick, compPick);
 }
 
 function determineGameWinner() {
-    showElement("gameplay", false);
-
-    let userWins = 0;
-    let computerWins = 0;
-
-    for(let i = 0; i < rounds.length; i++) {
-        if(rounds[i].roundWinner === "user") {
-            userWins++;
-        } else if(rounds[i].roundWinner === "computer") {
-            computerWins++;
-        }
-    }
-
-    showScores(userWins, computerWins);
-
-    if(userWins > computerWins) {
-        showGameWinner("User");
-    } else if(userWins < computerWins) {
-        showGameWinner("Computer");
+    if(game.playerWins > game.computerWins) {
+        showWinner("user", "game");
+    } else if(game.playerWins < game.computerWins) {
+        showWinner("computer", "game");
     } else {
-        showGameWinner("draft");
+        showWinner("draft", "game");
     }
 }
 
-function showGameWinner(option) {
-    showElement("game-results", true);
-    let resultsTitle = document.getElementById("game-results-title");
-    if(option === "draft") {
-        resultsTitle.innerText = "Draft. Nobody Wins.";
+function showWinner(winner, option){
+    let elem;
+
+    showElement("results", true);
+
+    if(option === "game") {
+        elem = document.getElementById("game-results-title");
+        showElement("gameplay", false);
+        showElement("game-results-title", true);
+        showElement("round-results-title", false);
+        showElement("round-winner", false);
+        showElement("user-pick", false);
+        showElement("computer-pick", false);
+        showElement("user-score", true);
+        showElement("computer-score", true);
+        showScores(game.playerWins, game.computerWins);
+        showElement("restart-button", true);
     }
-    else if(option === "Computer") {
-        resultsTitle.innerText = "Game Winner is " + option.toUpperCase();
-    } else if(option === "User") {
-        if(userName !== "User") {
-            resultsTitle.innerText = "Game Winner is " + userName.toUpperCase();
+    if(option === "round") {
+        elem = document.getElementById("round-winner");
+        showElement("game-results-title", false);
+        showElement("round-results-title", true);
+        showElement("round-winner", true);
+        showElement("user-pick", true);
+        showElement("computer-pick", true);
+        showElement("user-score", false);
+        showElement("computer-score", false);
+        showElement("restart-button", false);
+        let resultsTitle = document.getElementById("round-results-title");
+        resultsTitle.innerText = "Round " + game.rounds.length + " Results";
+    }
+    if(winner === "draft") {
+        elem.innerText = "Draft";
+    } else if(winner === "computer") {
+        elem.innerText = "Winner is " + winner.toUpperCase();
+    } else if(winner === "user") {
+        if(game.playerUsername !== "User") {
+            elem.innerText = "Winner is " + game.playerUsername.toUpperCase();
         } else {
-            resultsTitle.innerText = "Game Winner is " + option.toUpperCase();
+            elem.innerText = "Winner is " + winner.toUpperCase();
         }
     }
-    hideRoundWinner();
-    hidePicks();
-    showElement("restart-button", true);
-}
-
-function showRoundWinner(option) {
-    let elem = document.getElementById("round-winner");
-    elem.style.display = "block";
-    if(option === "draft") {
-        elem.innerText = "Draw. Nobody wins!";
-    } else if(option === "user") {
-        if(userName !== "User") {
-            elem.innerText = "Winner is: " + userName;
-        } else {
-            elem.innerText = "Winner is: User";
-        }
-    } else if(option === "computer") {
-        elem.innerText = "Winner is: Computer";
-    }
-}
-
-function hideRoundWinner() {
-    let elem = document.getElementById("round-winner");
-    elem.style.display = "none";
 }
 
 function showElement(elemId, canShow) {
@@ -201,41 +190,23 @@ function showElement(elemId, canShow) {
 function showScores(uScore, cScore) {
     let userScore = document.getElementById("user-score");
     let computerScore = document.getElementById("computer-score");
-    userScore.style.display = "block";
-    if(userName !== "User") {
-        userScore.innerText = userName + "'s Score: " + uScore;
+    if(game.playerUsername !== "User") {
+        userScore.innerText = game.playerUsername + "'s Score: " + uScore;
     } else {
         userScore.innerText = "User Score: " + uScore;
     }
-    computerScore.style.display = "block";
     computerScore.innerText = "Computer Score: " + cScore;
-}
-
-function hideScores() {
-    let userScore = document.getElementById("user-score");
-    let computerScore = document.getElementById("computer-score");
-    userScore.style.display = "none";
-    computerScore.style.display = "none";
 }
 
 function showPicks(uPick, cPick) {
     let userPick = document.getElementById("user-pick");
-    userPick.style.display = "block";
-    if(userName !== "User") {
-        userPick.innerText = userName + ": " + uPick.toUpperCase();
+    let computerPick = document.getElementById("computer-pick");
+    if(game.playerUsername !== "User") {
+        userPick.innerText = game.playerUsername + " chose " + uPick.toUpperCase();
     } else {
-        userPick.innerText = "User: " + uPick.toUpperCase();
+        userPick.innerText = "User chose " + uPick.toUpperCase();
     }
-    let computerPick = document.getElementById("computer-pick");
-    computerPick.style.display = "block";
-    computerPick.innerText = "Computer: " + cPick.toUpperCase();
-}
-
-function hidePicks() {
-    let userPick = document.getElementById("user-pick");
-    userPick.style.display = "none";
-    let computerPick = document.getElementById("computer-pick");
-    computerPick.style.display = "none";
+    computerPick.innerText = "Computer chose " + cPick.toUpperCase();
 }
 
 function showCurrentDate() {
@@ -243,5 +214,5 @@ function showCurrentDate() {
     document.getElementById("footer-date").innerText = currentDate;
 }
 
-showCurrentDate();
 loadGameSettings();
+showCurrentDate();

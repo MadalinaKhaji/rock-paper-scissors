@@ -11,13 +11,17 @@ header, main, footer {
     text-align: left;
 }
 
-#successAlert, #warningAlert {
+#warningAlert {
     display: none;
     margin: 1.5rem 0;
 }
 
-#gameplay, #game-results {
+#gameplay, #results {
     display: none;
+}
+
+#gameplay {
+    margin-bottom: 3rem;
 }
 
 .btn-lg {
@@ -27,4 +31,5 @@ header, main, footer {
 #restart-button {
     margin: 0 auto;
     text-align: center;
+    display: none;
 }
