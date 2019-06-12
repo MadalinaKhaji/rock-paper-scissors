@@ -44,27 +44,15 @@
         <div class="container" id="gameplay">
             <h3>Make a Choice</h3>
             <br>
-            <button type="button" class="btn btn-primary btn-lg" onclick="startRound('rock')"><i
-                    class="fas fa-hand-rock"></i> Rock</button>
-            <button type="button" class="btn btn-primary btn-lg" onclick="startRound('paper')"><i
-                    class="fas fa-hand-paper"></i> Paper</button>
-            <button type="button" class="btn btn-primary btn-lg" onclick="startRound('scissors')"><i
+            <button type="button" class="btn btn-primary btn-lg" id="rock-button"><i class="fas fa-hand-rock"></i>
+                Rock</button>
+            <button type="button" class="btn btn-primary btn-lg" id="paper-button"><i class="fas fa-hand-paper"></i>
+                Paper</button>
+            <button type="button" class="btn btn-primary btn-lg" id="scissors-button"><i
                     class="fas fa-hand-scissors"></i> Scissors</button>
         </div>
 
-        <div class="container" id="results">
-            <h4 id="round-results-title">Round Results</h4>
-            <h4 id="game-results-title">Game Results</h4>
-            <br>
-            <p id="round-winner"></p>
-            <p id="user-pick"></p>
-            <p id="computer-pick"></p>
-            <p id="user-score"></p>
-            <p id="computer-score"></p>
-            <br>
-            <button type="button" class="btn btn-success" id="restart-button"><i class="fas fa-redo-alt"></i> Restart
-                Game</button>
-        </div>
+        <div class="container" id="results"></div>
     </main>
 
     <footer>

@@ -16,11 +16,8 @@ header, main, footer {
     margin: 1.5rem 0;
 }
 
-#gameplay, #results {
-    display: none;
-}
-
 #gameplay {
+    display: none;
     margin-bottom: 3rem;
 }
 
@@ -31,5 +28,4 @@ header, main, footer {
 #restart-button {
     margin: 0 auto;
     text-align: center;
-    display: none;
 }
