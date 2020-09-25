@@ -18,27 +18,33 @@ require('../styles.css');
 
 let game = new Game();
 
+let nextCountdownInterval;
+
 let loadGame = () => {
   document.getElementById('start-button').addEventListener('click', () => {
     startGame();
   });
+
   document.getElementById('rock-button').addEventListener('click', function () {
     startRound('rock');
   });
+
   document.getElementById('paper-button').addEventListener('click', function () {
     startRound('paper');
   });
+
   document.getElementById('scissors-button').addEventListener('click', function () {
     startRound('scissors');
   });
 
-  document.getElementById('nextBtn').addEventListener('click', () => {
-    next();
+  document.getElementById('next-button').addEventListener('click', () => {
+    nextRound();
   });
 };
 
 let startGame = () => {
-  let noOfRoundsValue = document.getElementById('noofroundsInput').value;
+  let noOfRoundsValue = document.getElementById('noOfRoundsInput').value;
+  console.log(noOfRoundsValue);
   // assign default of 3 rounds
   if (noOfRoundsValue === 'Choose...') {
     game.roundNo = 3;
@@ -47,14 +53,12 @@ let startGame = () => {
   }
 
   showElement('game-settings', false);
+
   showElement('gameplay', true);
 };
 
 let startRound = (userPick) => {
-  if (game.rounds.length === game.roundNo) {
-    showGameResults(determineGameWinner(game.playerWins, game.computerWins));
-    return 0;
-  }
+  console.log('started round');
 
   let newRound = new Round(userPick);
   let compPick = getComputerPick();
@@ -67,8 +71,11 @@ let startRound = (userPick) => {
   }
 
   game.rounds.push(newRound);
+
   showElement('gameplay', false);
+
   showElement('results', true);
+
   showRoundResults(newRound.userPick, compPick, winner);
 };
 
@@ -77,39 +84,32 @@ let showRoundResults = (userPick, compPick, roundWinner) => {
 
   removeChildren('roundResults');
 
-  // let roundNoText = 'Round ' + game.rounds.length + ' Results';
   let winnerText = generateWinnerText(roundWinner);
   let userText = generatePickText('You', userPick);
   let compText = generatePickText('Computer', compPick);
 
-  // let roundNoElem = createElement('p', roundNoText);
   let winnerElem = createElement('h3', winnerText);
   let userElem = createElement('p', userText);
   let compElem = createElement('p', compText);
 
-  // let countdownDisplay = "<div class='countdownDisplay'><span id='countdownText'>3</span> SEC </div><button class='btn btn-primary' id='nextBtn' onclick='alert();'>Next</button>";
-
-  // results.appendChild(roundNoElem);
   results.appendChild(winnerElem);
   results.appendChild(userElem);
   results.appendChild(compElem);
 
-  // results.innerHTML += countdownDisplay;
-
-  countdown('start');
-};
-
-let next = () => {
-  showElement('gameplay', true);
-  showElement('results', false);
+  startNextCountdownInterval();
 };
 
 let showGameResults = (gameWinner) => {
-  let results = document.getElementById('results');
+  console.log('called show game results');
 
-  removeChildren('results');
+  showElement('results', true);
+
+  let results = document.getElementById('roundResults');
+
+  removeChildren('roundResults');
 
   showElement('gameplay', false);
+  showElement('countdownContainer', false);
 
   let winnerText = generateWinnerText(gameWinner);
   let userScoreText = generateScoreText('user', game.playerWins);
@@ -118,38 +118,63 @@ let showGameResults = (gameWinner) => {
   let winnerElem = createElement('p', winnerText);
   let userScoreElem = createElement('p', userScoreText);
   let compScoreElem = createElement('p', compScoreText);
-  let restartButtonElem = createRestartButton();
 
   results.appendChild(winnerElem);
   results.appendChild(userScoreElem);
   results.appendChild(compScoreElem);
-  results.appendChild(restartButtonElem);
+
+  document.getElementById('restart-button').style.display = 'block';
 
   restartButtonElem.addEventListener('click', function () {
     game.rounds = [];
     game.playerWins = 0;
     game.computerWins = 0;
+    showElement('restart-button', false);
     showElement('gameplay', true);
     showElement('results', false);
+    showElement('countdownContainer', true);
   });
 };
 
-let countdown = (option) => {
-  let countdownText = document.getElementById('countdownText');
+let restartGame = () => {
+  
+}
+
+let startNextCountdownInterval = () => {
+  let countdownDisplay = document.getElementById('countdownText');
 
   let secs = 3;
 
-  let countdownFunc = () => {
-    if (countdownText.textContent === '0') {
-      clearInterval(countdownInt);
-      next();
+  countdownDisplay.textContent = secs + '';
+
+  function countdownToNext() {
+    if (countdownDisplay.textContent === '0') {
+      nextRound();
     } else {
       secs--;
-      countdownText.textContent = secs + '';
-    }
-  };
 
-  let countdownInt = setInterval(countdownFunc, 3000);
+      countdownDisplay.textContent = secs + '';
+    }
+  }
+
+  nextCountdownInterval = setInterval(countdownToNext, 3000);
+};
+
+let stopNextCountdownInterval = () => {
+  clearInterval(nextCountdownInterval);
+  console.log('interval cleared');
+};
+
+let nextRound = () => {
+  stopNextCountdownInterval();
+
+  if (game.rounds.length === game.roundNo) {
+    showGameResults(determineGameWinner(game.playerWins, game.computerWins));
+  } else {
+    showElement('gameplay', true);
+
+    showElement('results', false);
+  }
 };
 
 loadGame();

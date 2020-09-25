@@ -47,7 +47,7 @@ main {
 }
 
 .countdownDisplay,
-#nextBtn {
+#next-button {
   margin: 5px 15px;
 }
 
@@ -65,4 +65,8 @@ main {
   align-items: center;
   justify-content: center;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#restart-button {
+  display: none;
 }

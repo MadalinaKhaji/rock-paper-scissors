@@ -1,6 +1,5 @@
 class Game {
-    constructor(playerUsername = "User", roundNo = 5){
-        this.playerUsername = playerUsername;
+    constructor(roundNo = 3){
         this.roundNo = roundNo;
         this.rounds = [];
         this.playerWins = 0;
