@@ -15,11 +15,6 @@ main {
   text-align: center;
 }
 
-#warningAlert {
-  display: none;
-  margin: 1.5rem 0;
-}
-
 #gameplay {
   display: none;
   margin-bottom: 3rem;
@@ -38,8 +33,7 @@ main {
   display: none;
 }
 
-.countdownContainer {
-  /* background-color: red; */
+#countdownContainer {
   display: flex;
   align-items: center;
   justify-content: center;

@@ -23,19 +23,6 @@ exports.getRoundWinner = (upick, cpick) => {
     }
 };
 
-exports.validateGameSettings = (username, roundNo) => {
-    if(username === "" || roundNo === "") {
-        return "Please enter values for username and no of rounds!";
-    }
-    if(isNaN(roundNo)) {
-        return "Please enter a number value for no of rounds!";
-    }
-    if(roundNo <= 0) {
-        return "Please enter a positive value for no of rounds!";
-    }
-    return true;
-};
-
 exports.determineGameWinner = (playerWins, computerWins) => {
     if(playerWins > computerWins) {
         return "user";
@@ -56,10 +43,10 @@ exports.generateScoreText = (player, score) => {
 
 exports.generateWinnerText = (winner) => {
     if(winner === 'draft') {
-        return 'Draft. Nobody wins';
+        return 'Draft. Nobody wins..';
     }
     else {
-        return `Winner is ${winner}`;
+        return `Winner is ${winner}!`;
     }
 };
 
@@ -76,18 +63,6 @@ exports.showElement = (elemId, canShow) => {
     } else {
         elem.style.display = "none";
     }
-};
-
-exports.showCurrentDate = (elemId) => {
-    let currentDate = new Date().toDateString();
-    document.getElementById(elemId).innerText = currentDate;
-};
-
-exports.createRestartButton = () => {
-    let restartButton = document.createElement("button");
-    restartButton.classList.add("btn","btn-success");
-    restartButton.innerHTML = "<i class='fas fa-redo-alt'></i> Restart Game";
-    return restartButton;
 };
 
 exports.removeChildren = (elemId) => {

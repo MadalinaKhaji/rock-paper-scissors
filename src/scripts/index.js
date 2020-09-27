@@ -1,4 +1,5 @@
 const Game = require('./models/game.model');
+
 const Round = require('./models/round.model');
 
 const {
@@ -7,7 +8,6 @@ const {
   determineGameWinner,
   createElement,
   showElement,
-  createRestartButton,
   generatePickText,
   generateWinnerText,
   generateScoreText,
@@ -25,26 +25,29 @@ let loadGame = () => {
     startGame();
   });
 
-  document.getElementById('rock-button').addEventListener('click', function () {
+  document.getElementById('rock-button').addEventListener('click', () => {
     startRound('rock');
   });
 
-  document.getElementById('paper-button').addEventListener('click', function () {
+  document.getElementById('paper-button').addEventListener('click', () => {
     startRound('paper');
   });
 
-  document.getElementById('scissors-button').addEventListener('click', function () {
+  document.getElementById('scissors-button').addEventListener('click', () => {
     startRound('scissors');
   });
 
   document.getElementById('next-button').addEventListener('click', () => {
     nextRound();
   });
+
+  document.getElementById('restart-button').addEventListener('click', () => {
+    restartGame();
+  });
 };
 
 let startGame = () => {
   let noOfRoundsValue = document.getElementById('noOfRoundsInput').value;
-  console.log(noOfRoundsValue);
   // assign default of 3 rounds
   if (noOfRoundsValue === 'Choose...') {
     game.roundNo = 3;
@@ -58,10 +61,10 @@ let startGame = () => {
 };
 
 let startRound = (userPick) => {
-  console.log('started round');
-
   let newRound = new Round(userPick);
+
   let compPick = getComputerPick();
+
   let winner = getRoundWinner(newRound.userPick, compPick);
 
   if (winner === 'user') {
@@ -88,7 +91,7 @@ let showRoundResults = (userPick, compPick, roundWinner) => {
   let userText = generatePickText('You', userPick);
   let compText = generatePickText('Computer', compPick);
 
-  let winnerElem = createElement('h3', winnerText);
+  let winnerElem = createElement('h4', winnerText);
   let userElem = createElement('p', userText);
   let compElem = createElement('p', compText);
 
@@ -100,45 +103,41 @@ let showRoundResults = (userPick, compPick, roundWinner) => {
 };
 
 let showGameResults = (gameWinner) => {
-  console.log('called show game results');
-
-  showElement('results', true);
-
   let results = document.getElementById('roundResults');
 
   removeChildren('roundResults');
 
-  showElement('gameplay', false);
   showElement('countdownContainer', false);
 
-  let winnerText = generateWinnerText(gameWinner);
-  let userScoreText = generateScoreText('user', game.playerWins);
-  let compScoreText = generateScoreText('computer', game.computerWins);
+  showElement('restart-button', true);
 
-  let winnerElem = createElement('p', winnerText);
+  let winnerText = `Game Results: ${generateWinnerText(gameWinner)}`;
+  let userScoreText = generateScoreText('User', game.playerWins);
+  let compScoreText = generateScoreText('Computer', game.computerWins);
+
+  let winnerElem = createElement('h4', winnerText);
   let userScoreElem = createElement('p', userScoreText);
   let compScoreElem = createElement('p', compScoreText);
 
   results.appendChild(winnerElem);
   results.appendChild(userScoreElem);
   results.appendChild(compScoreElem);
-
-  document.getElementById('restart-button').style.display = 'block';
-
-  restartButtonElem.addEventListener('click', function () {
-    game.rounds = [];
-    game.playerWins = 0;
-    game.computerWins = 0;
-    showElement('restart-button', false);
-    showElement('gameplay', true);
-    showElement('results', false);
-    showElement('countdownContainer', true);
-  });
 };
 
 let restartGame = () => {
-  
-}
+  game.rounds = [];
+
+  game.playerWins = 0;
+
+  game.computerWins = 0;
+  showElement('restart-button', false);
+
+  showElement('gameplay', true);
+
+  showElement('results', false);
+  // Must set display to flex instead of block for styling purposes
+  document.getElementById('countdownContainer').style.display = 'flex';
+};
 
 let startNextCountdownInterval = () => {
   let countdownDisplay = document.getElementById('countdownText');
@@ -162,13 +161,16 @@ let startNextCountdownInterval = () => {
 
 let stopNextCountdownInterval = () => {
   clearInterval(nextCountdownInterval);
-  console.log('interval cleared');
 };
 
 let nextRound = () => {
   stopNextCountdownInterval();
 
   if (game.rounds.length === game.roundNo) {
+    showElement('gameplay', false);
+
+    showElement('results', true);
+
     showGameResults(determineGameWinner(game.playerWins, game.computerWins));
   } else {
     showElement('gameplay', true);
