@@ -23,12 +23,12 @@
   },
   "homepage": "https://github.com/MadalinaKhaji/rock-paper-scissors#readme",
   "devDependencies": {
-    "css-loader": "^2.1.1",
+    "css-loader": "^6.7.3",
     "eslint": "^5.16.0",
     "jest": "^24.9.0",
-    "style-loader": "^0.23.1",
-    "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
